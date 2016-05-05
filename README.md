@@ -1,3 +1,3 @@
 # rukocipabot
 
-Asyiknya bertelegram ria dengan rumah sendiri :)
+Asyiknya bersosial media ria dengan rumah sendiri :)
