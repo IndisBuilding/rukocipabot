@@ -1,11 +1,12 @@
+from os import system
 import sys
 from time import sleep, strftime
 import telepot
-import lampupowmans
+import lampu
 
 
 global pin_lampu
-pin_lampu = lampupowmans.pin_lampu
+pin_lampu = lampu.pin_lampu
 
 
 def handle(msg):
@@ -14,134 +15,55 @@ def handle(msg):
 
     print 'Pesan diterima: %s' % command
 
-
     if command == "Menu" or command == "menu" or command == "/menu":
         bot.sendMessage(chat_id, \
 	"Silakan pilih menu yang tersedia: \n"\
-	"1. Lampu atas \n"\
-	"2. Lampu tengah \n"\
-	"3. Lampu bawah ")
-        bot.sendMessage(chat_id, "Pilih digit [1-3] diikuti on atau off.")
-        bot.sendMessage(chat_id, "Misal : 3 on")
-        bot.sendMessage(chat_id, "Atau klik menu cepat yang tampil di setiap bagian bawah!")
+	"1. Lampu Luar Ruko \n"\
+	"2. CCTV ")
 
-    if command == "1 on":
-        lampupowmans.lampu_on(pin_lampu[0])
-        file = open("status1.txt", "w")
-        file.write("menyala")
-        file.close()
-        bot.sendMessage(chat_id, "lampu atas powmans \nDINYALAKAN pada " + strftime("%A %d %B %Y %X %Z"))
-    elif command == "1 off":
-        lampupowmans.lampu_off(pin_lampu[0])
-        file = open("status1.txt", "w")
-        file.write("mati")
-        file.close()
-        bot.sendMessage(chat_id, "lampu atas powmans \nDIMATIKAN pada " + strftime("%A %d %B %Y %X %Z"))
-    if command == "2 on":
-        lampupowmans.lampu_on(pin_lampu[1])
-        file = open("status2.txt", "w")
-        file.write("menyala")
-        file.close()
-        bot.sendMessage(chat_id, "lampu tengah powmans \nDINYALAKAN pada " + strftime("%A %d %B %Y %X %Z"))
-    elif command == "2 off":
-        lampupowmans.lampu_off(pin_lampu[1])
-        file = open("status2.txt", "w")
-        file.write("mati")
-        file.close()
-        bot.sendMessage(chat_id, "lampu tengah powmans \nDIMATIKAN pada " + strftime("%A %d %B %Y %X %Z"))
-    if command == "3 on":
-        lampupowmans.lampu_on(pin_lampu[2])
-        file = open("status3.txt", "w")
-        file.write("menyala")
-        file.close()
-        bot.sendMessage(chat_id, "lampu bawah powmans \nDINYALAKAN pada " + strftime("%A %d %B %Y %X %Z"))
-    elif command == "3 off":
-        lampupowmans.lampu_off(pin_lampu[2])
-        file = open("status3.txt", "w")
-        file.write("mati")
-        file.close()
-        bot.sendMessage(chat_id, "lampu bawah powmans \nDIMATIKAN pada " + strftime("%A %d %B %Y %X %Z"))
-
-    if command == "/1":
+    if command == "Lampu Luar Ruko":
         status1 = open("status1.txt", "r").read()
         bot.sendMessage(chat_id, "Status sebelumnya --> %s" % (status1))
         if status1 == "mati":
-            lampupowmans.lampu_on(pin_lampu[0])
+            lampu.lampu_on(pin_lampu)
             file = open("status1.txt", "w")
             file.write("menyala")
             file.close()
-            bot.sendMessage(chat_id, "lampu atas powmans \nDINYALAKAN pada " + strftime("%A %d %B %Y %X %Z"))
+            bot.sendMessage(chat_id, "Lampu Luar Ruko \nDINYALAKAN pada " + strftime("%A %d %B %Y %X %Z"))
             status1 = open("status1.txt", "r").read()
             bot.sendMessage(chat_id, "Status sekarang --> %s" % (status1))
         elif status1 == "menyala":
-            lampupowmans.lampu_off(pin_lampu[0])
+            lampu.lampu_off(pin_lampu)
             file = open("status1.txt", "w")
             file.write("mati")
             file.close()
-            bot.sendMessage(chat_id, "lampu atas powmans \nDIMATIKAN pada " + strftime("%A %d %B %Y %X %Z"))
+            bot.sendMessage(chat_id, "Lampu Luar Ruko \nDIMATIKAN pada " + strftime("%A %d %B %Y %X %Z"))
             status1 = open("status1.txt", "r").read()
             bot.sendMessage(chat_id, "Status sekarang --> %s" % (status1))
 
-    elif command == "/2":
-        status2 = open("status2.txt", "r").read()
-        bot.sendMessage(chat_id, "Status sebelumnya --> %s" % (status2))
-        if status2 == "mati":
-            lampupowmans.lampu_on(pin_lampu[1])
-            file = open("status2.txt", "w")
-            file.write("menyala")
-            file.close()
-            bot.sendMessage(chat_id, "lampu atas powmans \nDINYALAKAN pada " + strftime("%A %d %B %Y %X %Z"))
-            status2 = open("status2.txt", "r").read()
-            bot.sendMessage(chat_id, "Status sekarang --> %s" % (status2))
-        elif status2 == "menyala":
-            lampupowmans.lampu_off(pin_lampu[1])
-            file = open("status2.txt", "w")
-            file.write("mati")
-            file.close()
-            bot.sendMessage(chat_id, "lampu atas powmans \nDIMATIKAN pada " + strftime("%A %d %B %Y %X %Z"))
-            status2 = open("status2.txt", "r").read()
-            bot.sendMessage(chat_id, "Status sekarang --> %s" % (status2))
-
-    elif command == "/3":
-        status3 = open("status3.txt", "r").read()
-        bot.sendMessage(chat_id, "Status sebelumnya --> %s" % (status3))
-        if status3 == "mati":
-            lampupowmans.lampu_on(pin_lampu[2])
-            file = open("status3.txt", "w")
-            file.write("menyala")
-            file.close()
-            bot.sendMessage(chat_id, "lampu atas powmans \nDINYALAKAN pada " + strftime("%A %d %B %Y %X %Z"))
-            status3 = open("status3.txt", "r").read()
-            bot.sendMessage(chat_id, "Status sekarang --> %s" % (status3))
-        elif status3 == "menyala":
-            lampupowmans.lampu_off(pin_lampu[2])
-            file = open("status3.txt", "w")
-            file.write("mati")
-            file.close()
-            bot.sendMessage(chat_id, "lampu atas powmans \nDIMATIKAN pada " + strftime("%A %d %B %Y %X %Z"))
-            status3 = open("status3.txt", "r").read()
-            bot.sendMessage(chat_id, "Status sekarang --> %s" % (status3))
+    elif command == "CCTV":
+        system("sudo python camera.py")
+        file = open("status2.txt", "w")
+        file.write("Gambar CCTV terakhir diambil pada " + strftime("%A %d %B %Y %X %Z"))
+        file.close()
+        #bot.sendMessage(chat_id, "Gambar berhasil diampil. Sedang dalam proses pengiriman ke Telegram.")
+        bot.sendMessage(chat_id, 'Mengirim gambar CCTV. Harap tunggu...')
+        bot.sendPhoto(chat_id, open('image1.jpg', 'rb'), caption='Situasi terkini')
 
 
-    if command == 'status' or command == 'Status' or command == "/status":
+    if command == 'Status':
         status1 = open('status1.txt', 'r').read()
         status2 = open('status2.txt', 'r').read()
-        status3 = open('status3.txt', 'r').read()
         
         bot.sendMessage(chat_id, \
         "Status kondisi perangkat listrik saat ini --> \n"\
-        "1. Lampu atas		--> %s\n" \
-        "2. Lampu tengah	--> %s\n" \
-        "3. Lampu bawah		--> %s\n" % (status1, status2, status3))
+        "1. Lampu Luar Ruko	--> %s\n" \
+        "2. CCTV		--> %s\n" % (status1, status2))
 
+    show_keyboard = {'keyboard': [['Lampu Luar Ruko'], ['CCTV'], ['Menu', 'Status']]}
+    bot.sendMessage(chat_id, 'Pilih menu cepat :', reply_markup=show_keyboard)
 
-    elif command == 'kata kunci':
-        bot.sendMessage(chat_id, "abang sayang adek :)")
-        bot.sendMessage(chat_id, "adek juga sayang abang :*")
-
-    bot.sendMessage(chat_id, "/menu \t /status \t /1 \t /2 \t /3")
-
-bot = telepot.Bot('178732152:AAFBCunAYIFuFBuVOgDCzR6Rgb7BbXTVypQ')
+bot = telepot.Bot('194671155:AAFQ4Veb_Xy5HG17NI3yJ5w2xULKDmAIvOI')
 bot.message_loop(handle)
 print 'Mendengarkan ...'
 
